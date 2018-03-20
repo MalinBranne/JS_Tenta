@@ -51,32 +51,30 @@ fetch("http://demo.edument.se/api/products")
   .then(data => {
     var products = data;
     console.log(products, "hey");
+
+    var inStock; // = foreach(products[i]).Math.floor(Math.random() * 20);
+    products.forEach(function(obj) {
+      obj.Inventory = Math.floor(Math.random() * 20);
+    });
+    // for (var obj in products) {
+    //   obj.Inventory = Math.floor(Math.random() * 20);
+    // }
+    console.log(products);
     renderHTMLtext(products);
-    // var inStock = forEach.products[i].Math.floor(Math.random() * 20);
   });
 
 let cards = $(".card");
-// var inStock; // = foreach(products[i]).Math.floor(Math.random() * 20);
-// function Stock() {
-//   for (var product in products) {
-//     inStock = Math.floor(Math.random() * 20);
-//   }
-// }
 
 /*rendering html by looping out the products*/
 
 function renderHTMLtext(data) {
-  var HTMLstring = "";
-  var inStock;
   for (var i in data) {
     cards[i].innerHTML = `
 <div class="prodDiv" data-id="${data[i].Id}">
 <img src="${data[i].Image}" />
 <h4>${data[i].Name}</h4>
 <div>Price: ${data[i].Price}</div>
-<div>${data[i].Description}</div>
-<div>${data[i].Id}${inStock}</div>
-<div> In stock: ${(inStock = Math.floor(Math.random() * 20))}</div>
+<div> In stock: ${data[i].Inventory}</div>
 </div>
 `;
   }
@@ -123,7 +121,7 @@ function displayProduct(prodData) {
 <h3>${prodData.Name}</h3>
 <h4>$${prodData.Price}</h4>
 <h4>${prodData.Description}</h4>
-<a href="${prodData.Url}">${prodData.Url}</a> 
+
 <br>
 <button class="backBtn">Go Back To Products</button>
 <div id="comments"></div>
@@ -214,6 +212,8 @@ var shoppingCart = (function() {
 
   obj.clearCart = function() {
     cart = [];
+    for (var i in cart) {
+    }
     saveCart();
   };
 
@@ -263,6 +263,9 @@ $(".add-to-cart").on("click", function(event) {
   var price = Number($(this).attr("data-price"));
 
   shoppingCart.addItemToCart(id, name, price, 1);
+
+  this.inStock--;
+
   displayCart();
 });
 
