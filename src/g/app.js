@@ -81,22 +81,6 @@ function renderHTMLtext(data) {
   }
 }
 
-$(".add-to-cart").on("click", function(event) {
-  event.preventDefault();
-  var id = Number($(this).attr("data-id"));
-  var name = $(this).attr("data-name");
-  var price = Number($(this).attr("data-price"));
-
-  shoppingCart.addItemToCart(id, name, price, 1);
-
-  var inStock = Number($(".inventory").html());
-
-  inStock--;
-
-  $(".inventory").html(inStock);
-  displayCart();
-});
-
 /*rendering html for specific product when clicking on a div*/
 /*all code for the specific products page, including reviews and such is inside this funcition*/
 
@@ -163,26 +147,13 @@ var shoppingCart = (function() {
     this.count = count;
   }
 
-  function saveCart() {
-    localStorage.setItem("shoppingCart", JSON.stringify(cart));
-  }
-
-  function loadCart() {
-    cart = JSON.parse(localStorage.getItem("shoppingCart"));
-    if (cart === null) {
-      cart = [];
-    }
-  }
-
-  loadCart();
-
   var obj = {};
 
   obj.addItemToCart = function(id, name, price, count) {
     for (var i in cart) {
       if (cart[i].name === name) {
         cart[i].count += count;
-        saveCart();
+
         return;
       }
     }
@@ -191,7 +162,6 @@ var shoppingCart = (function() {
 
     var item = new Item(id, name, price, count);
     cart.push(item);
-    saveCart();
   };
 
   obj.setCountForItem = function(name, count) {
@@ -201,7 +171,6 @@ var shoppingCart = (function() {
         break;
       }
     }
-    saveCart();
   };
 
   obj.removeItemFromCart = function(name) {
@@ -214,7 +183,6 @@ var shoppingCart = (function() {
         break;
       }
     }
-    saveCart();
   };
 
   obj.removeItemFromCartAll = function(name) {
@@ -224,14 +192,10 @@ var shoppingCart = (function() {
         break;
       }
     }
-    saveCart();
   };
 
   obj.clearCart = function() {
     cart = [];
-    for (var i in cart) {
-    }
-    saveCart();
   };
 
   obj.countCart = function() {
@@ -270,8 +234,23 @@ var shoppingCart = (function() {
 
   return obj;
 })();
-
 /****************************************** Bygger cart***********************************************' */
+
+$(".add-to-cart").on("click", function(event) {
+  event.preventDefault();
+  var id = Number($(this).attr("data-id"));
+  var name = $(this).attr("data-name");
+  var price = Number($(this).attr("data-price"));
+
+  shoppingCart.addItemToCart(id, name, price, 1);
+
+  var inStock = Number($(".inventory").html());
+
+  inStock--;
+
+  $(".inventory").html(inStock);
+  displayCart();
+});
 
 $("#clear-cart").on("click", function(event) {
   shoppingCart.clearCart();
@@ -302,12 +281,6 @@ function displayCart() {
       cartArray[i].total +
       "</td>" +
       "<td>" +
-      " <button class='btn btn-default plus-item' data-name='" +
-      cartArray[i].name +
-      "'>+</button>" +
-      " <button class='btn btn-default subtract-item' data-name='" +
-      cartArray[i].name +
-      "'>-</button>" +
       " <button class='btn btn-default delete-item' data-name='" +
       cartArray[i].name +
       "'>X</button>" +
@@ -392,18 +365,6 @@ function displayCart() {
 }
 
 /************************************************** */
-
-$("#show-cart").on("click", ".delete-item", function(event) {
-  var name = $(this).attr("data-name");
-  shoppingCart.removeItemFromCartAll(name);
-  displayCart();
-});
-
-$("#show-cart").on("click", ".subtract-item", function(event) {
-  var name = $(this).attr("data-name");
-  shoppingCart.removeItemFromCart(name);
-  displayCart();
-});
 
 $("#show-cart").on("click", ".plus-item", function(event) {
   var name = $(this).attr("data-name");
