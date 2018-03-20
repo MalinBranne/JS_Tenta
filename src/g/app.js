@@ -44,7 +44,7 @@ function jsHide(id) {
 //funktoner för att dölja/visa saker
 
 /**************************************Skapar individuell produkt div******************************************' */
-
+var inStock;
 /*Fetchin products*/
 fetch("http://demo.edument.se/api/products")
   .then(response => response.json())
@@ -52,10 +52,11 @@ fetch("http://demo.edument.se/api/products")
     var products = data;
     console.log(products, "hey");
 
-    var inStock; // = foreach(products[i]).Math.floor(Math.random() * 20);
     products.forEach(function(obj) {
       obj.Inventory = Math.floor(Math.random() * 20);
     });
+
+    inStock = products.Inventory;
     // for (var obj in products) {
     //   obj.Inventory = Math.floor(Math.random() * 20);
     // }
@@ -74,11 +75,27 @@ function renderHTMLtext(data) {
 <img src="${data[i].Image}" />
 <h4>${data[i].Name}</h4>
 <div>Price: ${data[i].Price}</div>
-<div> In stock: ${data[i].Inventory}</div>
+<div> In stock: <span class="inventory">${data[i].Inventory}</span></div>
 </div>
 `;
   }
 }
+
+$(".add-to-cart").on("click", function(event) {
+  event.preventDefault();
+  var id = Number($(this).attr("data-id"));
+  var name = $(this).attr("data-name");
+  var price = Number($(this).attr("data-price"));
+
+  shoppingCart.addItemToCart(id, name, price, 1);
+
+  var inStock = Number($(".inventory").html());
+
+  inStock--;
+
+  $(".inventory").html(inStock);
+  displayCart();
+});
 
 /*rendering html for specific product when clicking on a div*/
 /*all code for the specific products page, including reviews and such is inside this funcition*/
@@ -255,19 +272,6 @@ var shoppingCart = (function() {
 })();
 
 /****************************************** Bygger cart***********************************************' */
-
-$(".add-to-cart").on("click", function(event) {
-  event.preventDefault();
-  var id = Number($(this).attr("data-id"));
-  var name = $(this).attr("data-name");
-  var price = Number($(this).attr("data-price"));
-
-  shoppingCart.addItemToCart(id, name, price, 1);
-
-  this.inStock--;
-
-  displayCart();
-});
 
 $("#clear-cart").on("click", function(event) {
   shoppingCart.clearCart();
