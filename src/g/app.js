@@ -343,6 +343,8 @@ function displayCart() {
     let userComments = document.getElementById("formComment").value;
     let userCart = orderItems;
 
+    let form = document.getElementById("myForm");
+
     fetch("http://localhost:3000/orders", {
       method: "POST",
       headers: {
@@ -363,6 +365,12 @@ function displayCart() {
     })
       .then(res => res.json())
       .then(data => console.log(data));
+
+    //  Testade med promise men då sparades inte mina orders.
+    setTimeout(function() {
+      shoppingCart.clearCart(), form.reset();
+      alert("Thank you for your order");
+    }, 1000);
   }
 }
 
