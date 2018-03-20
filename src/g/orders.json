@@ -1,3 +1,47 @@
 {
-  "orders": []
+  "orders": [
+    {
+      "firstname": "Malin",
+      "lastname": "Branne",
+      "email": "malinbrannegard@hotmail.com",
+      "phone": "0734848087",
+      "streetaddress": "Karpstigen 2",
+      "zipcode": "34337",
+      "city": "Älmhult",
+      "comment": "Hejsan test 1",
+      "OrderItems": [
+        {
+          "Id": 8,
+          "Name": "Product_#8",
+          "Price": 90.72
+        },
+        {
+          "Id": 8,
+          "Name": "Product_#8",
+          "Price": 90.72
+        },
+        {
+          "Id": 1,
+          "Name": "Product_#1",
+          "Price": 12.02
+        },
+        {
+          "Id": 1,
+          "Name": "Product_#1",
+          "Price": 12.02
+        },
+        {
+          "Id": 2,
+          "Name": "Product_#2",
+          "Price": 29.57
+        },
+        {
+          "Id": 3,
+          "Name": "Product_#3",
+          "Price": 14.98
+        }
+      ],
+      "id": 1
+    }
+  ]
 }
