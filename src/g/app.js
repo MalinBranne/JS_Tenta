@@ -52,15 +52,22 @@ fetch("http://demo.edument.se/api/products")
     var products = data;
     console.log(products, "hey");
     renderHTMLtext(products);
+    // var inStock = forEach.products[i].Math.floor(Math.random() * 20);
   });
+
+let cards = $(".card");
+// var inStock; // = foreach(products[i]).Math.floor(Math.random() * 20);
+// function Stock() {
+//   for (var product in products) {
+//     inStock = Math.floor(Math.random() * 20);
+//   }
+// }
 
 /*rendering html by looping out the products*/
 
 function renderHTMLtext(data) {
   var HTMLstring = "";
-
-  let cards = $(".card");
-
+  var inStock;
   for (var i in data) {
     cards[i].innerHTML = `
 <div class="prodDiv" data-id="${data[i].Id}">
@@ -68,6 +75,8 @@ function renderHTMLtext(data) {
 <h4>${data[i].Name}</h4>
 <div>Price: ${data[i].Price}</div>
 <div>${data[i].Description}</div>
+<div>${data[i].Id}${inStock}</div>
+<div> In stock: ${(inStock = Math.floor(Math.random() * 20))}</div>
 </div>
 `;
   }
@@ -370,6 +379,7 @@ function displayCart() {
     setTimeout(function() {
       shoppingCart.clearCart(), form.reset();
       alert("Thank you for your order");
+      console.log(cart); // making sure cart is empty
     }, 1000);
   }
 }
@@ -402,3 +412,5 @@ $("#show-cart").on("change", ".item-count", function(event) {
 });
 
 displayCart();
+
+/*****************************Stock status********************************* */
